@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Редактор заметок</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+	{{> main}}
+	<div class="container-fluid">
+		<form method="post">
+
+			<input hidden name="id" value="{{note.id}}">
+
+			<div class="form-group">
+	            <label for="title">Заголовок:</label>
+	            <input class="form-control" name="title" value="{{note.title}}" required>
+	        </div>
+
+	        <div class="form-group">
+	        	<label for="content">Описание заметки:</label>
+	        	<textarea class="form-control" name="content" placeholder="Описание заметки...">{{note.content}}</textarea>
+	        </div>
+
+	        <div class="form-group">
+	            <label for="date">Дата окончания:</label><br>
+	            <input type="date" name="date" value="{{note.date}}">
+	        </div>
+
+	        <div class="panel-body">
+	            <button class="btn btn-success" type="submit" formaction="/save">Сохранить</button>
+	        </div>
+
+		</form>
+	</div>
+</body>
+</html>
