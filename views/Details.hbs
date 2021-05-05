@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Подробности</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+	{{> main}}
+	<div class="container-fluid">
+		<h1>{{note.title}}</h1>
+
+		<div class="row">
+			<div class="col-8 bg-light rounded ml-3 pt-2 pb-2"><pre>{{note.content}}</pre></div>
+			<div class="col bg-light rounded ml-1 mr-3 d-flex align-items-center">
+					
+				<form method="post" action="/complete" class="flex-fill pb-2 pt-2">
+
+					<input name="id" value="{{note.id}}" hidden>
+
+					{{#if showDate}}
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Дата окончания:</span>
+							</div>
+							<input style="font-weight: bold" type="text" class="form-control" value="{{printDate note.date}}" readonly>
+						</div>
+					{{/if}}
+
+					<div class="input-group">
+					  <div class="input-group-prepend">
+					    <div class="input-group-text">
+					      <input type="checkbox" onclick="this.form.submit()" name="complete"
+							{{#if note.complete}}
+								checked 
+							{{/if}}> 
+					    </div>
+					  </div>
+					  <input style="font-weight: bold" type="text" class="form-control" value="Завершено" readonly>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+
+		<div class="form-group mt-2">
+	 		<form method="post" action="/uploadFile" enctype="multipart/form-data">
+	 			<div class="input-group">
+	 				<button type="submit" class="btn btn-secondary mr-1">Загрузить файл</button>					
+					<div class="custom-file">
+					    <input type="file" class="custom-file-input" name="myFile" required>
+					    <label class="custom-file-label" for="customFile">Выберите файл</label>
+					</div>
+					<input name="id" value="{{note.id}}" hidden>
+				</div>
+			</form>
+		</div>
+
+	 	{{#if showTable}}
+
+			<table class="table table-hover table-bordered">
+				<thead class="thead-light">
+	            	<tr><th>Название файла</th><th>Действия</th></tr>
+	            </thead>
+	            <tbody>
+
+	            	{{#each files}}
+	          	
+	                <tr>
+	                    <td class="align-middle">{{this}}</td>
+	                    <td>  
+	                    	<div class="d-flex justify-content-center"> 
+		                    	<form method="post">
+		                    		<input name="fileName" value="{{../note.id}}/{{this}}" hidden>
+		                    		<div class="btn-group btn-group-md">
+			                    		<button type="submit" class="btn btn-danger" formaction="deleteFile">Удалить</button>
+			                    		<button type="submit" class="btn btn-info" formaction="downloadFile">Скачать</button>
+		                    		</div>
+		                		</form>
+	                		</div>
+	                	</td>
+	                </tr>
+
+	                {{/each}}
+
+	            </tbody>
+			</table> 
+
+		{{/if}}
+	
+		<div class="d-flex justify-content-center">
+			<form method="get" action="/delete"> 
+				<input name="id" value="{{note.id}}" hidden>
+				<div class="btn-group btn-group-md">
+					<button class="btn btn-danger" type="submit">Удалить записку</button> 
+					<button class="btn btn-info" type="submit" formaction="/edit">Изменить записку</button> 
+				</div>
+			</form>
+		</div>
+
+	</div>
+</body>
+</html>

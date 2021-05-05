@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ЗАМЕТКИ</title>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid mt-5">
+        <h1>Заметки</h1>
+
+        <form method="post">
+            <div class="input-group mb-2">
+                <select class="custom-select" name="status">
+                    <option value="Все">Все</option>
+                    <option value="Завершено!">Завершенные</option>
+                    <option value="В процессе!">В процессе</option>
+                    <option value="Время вышло!">Время вышло</option>
+                    <option value="Бессрочно!">Бессрочно</option>
+                </select>
+
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" formaction="/filter">Фильтровать</button>
+                    <button class="btn btn-success" type="submit" formaction="/new">Добавить</button>
+                </div>                
+            </div>
+        </form>
+
+        {{#if tableVisible}}
+
+            <table class="table table-hover table-bordered">
+                <thead class="thead-light">
+                	<tr><th>Заголовок</th><th>Дата</th><th>Статус</th></tr>
+                </thead>
+                <tbody>
+
+                    {{#each notes}}
+
+                        {{#if this.complete}}
+
+                            <tr class="table-success">
+                                <td><a href="/details?id={{this.id}}">{{this.title}}</a></td>
+                                <td>{{printDate this.date}}</td>
+                                <td>Завершено!</td>
+                            </tr>
+
+                        {{else}}
+
+                            <tr>
+                                <td><a href="/details?id={{this.id}}">{{this.title}}</a></td>
+                                <td>{{printDate this.date}}</td>
+                                <td>{{completionStatus this.date}}</td>
+                            </tr>
+
+                        {{/if}}
+
+                    {{/each}}
+
+                </tbody>
+            </table>
+
+        {{else}}
+
+            <h2>Заметок нет</h2>
+
+        {{/if}}
+
+    </div>
+</body>
+</html>
